@@ -17,6 +17,9 @@
 
 using namespace std;
 
+// disable snprintf -Wformat-truncation= warning
+#define snprintf_nowarn(...) (snprintf(__VA_ARGS__) < 0 ? abort() : (void)0)
+
 // clients_list save all the clients's socket
 list<int> clients_list;
 
@@ -100,7 +103,7 @@ int sendBroadcastMessage(int clientfd)
             return len;
         }
         // format message to broadcast
-        snprintf(message, BUF_SIZE, SERVER_MESSAGE, clientfd, buf);
+        snprintf_nowarn(message, BUF_SIZE, SERVER_MESSAGE, clientfd, buf);
 
         list<int>::iterator it;
         for (it = clients_list.begin(); it != clients_list.end(); ++it)

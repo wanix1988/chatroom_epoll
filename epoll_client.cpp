@@ -64,7 +64,10 @@ int main(int argc, char *argv[])
         while (is_client_work)
         {
             bzero(&message, BUF_SIZE);
-            fgets(message, BUF_SIZE, stdin);
+            if (fgets(message, BUF_SIZE, stdin) == NULL) {
+                printf("cannot get message\n");
+                continue;
+            }
 
             // 客户输出exit,退出
             if (strncasecmp(message, EXIT, strlen(EXIT)) == 0)
